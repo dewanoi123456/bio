@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="images/verfity badge.png">
+  
+  <meta property="og:title" content="my-bio-special.lol">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://my-bio-special.lol">
+  <meta content="alone_banner.gif" property="og:image">
+  <meta property="og:description" content="Personal private bio site.">
+  <meta name="theme-color" content="#E7BF8F">
+  <link rel="stylesheet" href="css/style.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <link rel="stylesheet" href="css/all.min.css" crossorigin="anonymous">
+</head>
+<body>
+
+  <!-- เพิ่ม HTML Video Tag สำหรับเป็นพื้นหลัง
+  <video autoplay muted loop playsinline class="back-video">
+    <source src="images/bbg.mp4" type="video/mp4">
+  </video> -->
+
+  <!-- Canvas สำหรับเอฟเฟกต์หิมะ -->
+  <canvas id="snow-canvas"></canvas>
+  
+  <!-- Overlay ครอบทั้งหน้าจอเพื่อให้คลิกตรงไหนก็ได้ -->
+  <div id="overlay" class="overlay">
+    <div class="click-text">[ Click Me! ]</div>
+  </div>
+
+  <!-- Volume control -->
+  <div class="volume-control hidden">
+    <button id="mute-toggle">
+      <i id="mute-icon" class="fas fa-volume-up"></i>
+    </button>
+    <input id="volume-slider" type="range" min="0" max="1" step="0.1" value="1">
+  </div>
+
+  <!-- Profile container -->
+  <div class="profile-container">
+    <!-- ส่วนที่ 1: บน (โปรไฟล์, ชื่อ, และ Badge) -->
+    <div class="bio-section-top">
+      <img src="images/pfp3.jpg" alt="Profile Picture" class="profile-picture">
+      <div class="profile-info">
+        <div class="wrapper">
+          <h1 style="margin-left: 25px;">dewanoi1234</h1>
+          <img src="images/verfity badge.gif" style="width: 30px; height: 30px; margin-left: 10px;" alt="Badge GIF">
+        </div>
+        <div class="badges-container">
+          <div class="badge">
+            <i class="fas fa-gem"></i>
+            <div class="tooltip">Premium</div>
+          </div>
+          <div class="badge">
+            <i class="fas fa-hammer"></i>
+            <div class="tooltip">Developer</div>
+          </div>
+          <div class="badge">
+            <i class="fas fa-fire"></i>
+            <div class="tooltip">Owner</div>
+          </div>
+          <div class="badge">
+            <i class="fas fa-shield-alt"></i>
+            <div class="tooltip">Verified</div>
+          </div>
+        </div>
+        <div class="description-text"></div>
+      </div>
+    </div>
+<!--===============================-->
+    <!-- ส่วนที่ 2: กลาง (ลิงก์โซเชียล) -->
+    <div class="bio-section-middle">
+      <ul class="social-icons">
+        <li><a href="https://discord.com/users/1222374380080988171" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i></a></li>
+        <li><a href="https://www.youtube.com/@dewanoi1234" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a></li>
+        <li><a href="https://www.tiktok.com/@dewanoi1234" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a></li>
+        <li class="menu-toggle" onclick="toggleMenu()"><a href="javascript:void(0)"><i class="fas fa-bars"></i></a></li>
+      </ul>
+
+      <div id="extra-links" class="extra-links">
+        <ul>
+          <li><a href="https://easydonate.app/dewanoi1234" target="_blank" rel="noopener noreferrer"><i class="fas fa-user"></i> Donate</a></li>
+          <li><a href="https://discord.gg/GxuSP9Uzky" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i> Discord Game</a></li>
+          <li><a href="https://www.roblox.com/users/2769442731" target="_blank" rel="noopener noreferrer"><i class="fas fa-gamepad"></i> Profile Roblox</a></li>
+          <li><a href="https://www.roblox.com/communities/33852603" target="_blank" rel="noopener noreferrer"><i class="fas fa-user-friends"></i> Group Roblox</a></li>
+        </ul>
+      </div>
+    </div>
+<!--===============================-->
+    <!-- ส่วนที่ 3: ล่าง (เครื่องเล่นเพลง) -->
+    <div class="line"></div>
+    <div class="bio-section-bottom">
+      <div class="custom-music-player">
+        <div class="music-thumb-container">
+          <img src="images/pfp4.png" alt="Song Art" id="music-thumb">
+        </div>
+        <div class="music-info-container">
+          <div class="song-title-scroll">
+            <span id="current-song-name">Loading music...</span>
+          </div>
+          <div class="music-progress-row">
+            <span id="current-time">0:00</span>
+            <div class="progress-bar-bg" id="progress-container">
+              <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+            <span id="total-duration">0:00</span>
+          </div>
+        </div>
+        <div class="music-controls-row">
+          <button id="prev-song"><i class="fas fa-backward-step"></i></button>
+          <button id="play-pause-song"><i class="fas fa-play" id="play-pause-icon"></i></button>
+          <button id="next-song"><i class="fas fa-forward-step"></i></button>
+        </div>
+      </div>
+    </div>
+<!--===============================-->
+    <div class="line"></div>
+    <div class="ip-display">
+      <p></p> <span id="user-ip"></span>
+    </div>
+    <div class="website-link"></div>
+  </div>
+  
+  <!-- Audio element -->
+  <audio id="background-music" preload="auto"></audio>
+
+  <!-- Footer -->
+  <div class="profile-info" style="text-align: center; position: absolute; bottom: 10px; width: 100%; color: rgb(255, 255, 255); font-size: 12px;">
+    <div class="wrapper">
+      <h2 style="margin: 0;">© 2026 dewanoi1234</h2>
+    </div>
+  </div>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sintony:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&display=swap" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="js/script.js"></script>
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+</body>
+</html>
